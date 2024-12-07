@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h3 class="center-align">Task Manager</h3>
+
+    <!-- Form to Add Tasks -->
+    <form id="addTaskForm">
+      <div class="input-field">
+        <input type="text" id="taskTitle" required>
+        <label for="taskTitle">Task Title</label>
+      </div>
+      <div class="input-field">
+        <textarea id="taskDescription" class="materialize-textarea" required></textarea>
+        <label for="taskDescription">Task Description</label>
+      </div>
+      <div class="input-field center-align">
+        <button id="addTaskButton" class="btn waves-effect waves-light" type="submit">Add Task</button>
+      </div>
+    </form>
+
+    <!-- Task List -->
+    <h4 class="center-align">Task List</h4>
+    <ul id="taskList" class="collection"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
