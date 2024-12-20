@@ -1,9 +1,13 @@
 {
+<<<<<<< HEAD
+  "dependencies": {
+=======
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "mocha test --timeout 5000"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+>>>>>>> 5bf5d15 (Added server functionality and tests)
     "mongoose": "^8.8.4"
   }
 }
