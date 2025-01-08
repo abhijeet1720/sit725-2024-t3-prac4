@@ -1,22 +1,47 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const taskRoutes = require('./routes/taskRoutes');
-const connectDB = require('./config/db');
+const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
 
-dotenv.config();
+// Create an Express application
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Serve static files
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Middleware
-app.use(express.json());
-app.use('/tasks', taskRoutes);
+// Routes
+app.use('/api/tasks', require('./routes/taskRoutes'));
 
-// Start the server only if not in test mode
-if (process.env.NODE_ENV !== 'test') {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-}
+// Default route to serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
 
-module.exports = app; // Export the app for testing
+// Create an HTTP server and attach the Express app
+const server = http.createServer(app);
+
+// Attach Socket.IO to the HTTP server
+const io = socketIo(server);
+
+// Handle new connections with Socket.IO
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  // Emit random numbers every second
+  setInterval(() => {
+    socket.emit('number', parseInt(Math.random() * 10));
+  }, 1000);
+
+  // Handle disconnect event
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+// Define the port for the server to listen on
+const PORT = process.env.PORT || 3000;
+
+// Start the server
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

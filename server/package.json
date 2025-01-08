@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-=======
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
@@ -18,7 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
->>>>>>> 5bf5d15 (Added server functionality and tests)
-    "mongoose": "^8.8.4"
+    "mongoose": "^8.8.4",
+    "socket.io": "^4.8.1"
   }
 }

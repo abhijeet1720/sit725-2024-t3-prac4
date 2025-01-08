@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 2rem;
+    }
+    .task-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+    }
+    .task-container h2 {
+      margin-top: 0;
+    }
+    .task-form {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    .task-form input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .task-form button {
+      padding: 0.5rem 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .task-form button:hover {
+      background: #0056b3;
+    }
+    .task-list {
+      list-style: none;
+      padding: 0;
+    }
+    .task-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .task-list li:last-child {
+      border-bottom: none;
+    }
+    .task-list button {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .task-list button:hover {
+      background: #a71d2a;
+    }
+  </style>
+
+  <!-- Socket.IO script -->
+  <script src="/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+  <header>
+    <h1>Task Manager</h1>
+  </header>
+  <main>
+    <div class="task-container">
+      <h2>Add a Task</h2>
+      <form class="task-form" id="taskForm">
+        <input type="text" id="taskInput" placeholder="Enter a new task" required />
+        <button type="submit">Add Task</button>
+      </form>
+      <h2>Tasks</h2>
+      <ul class="task-list" id="taskList"></ul>
+    </div>
+  </main>
+  <script>
+    const taskForm = document.getElementById('taskForm');
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    // Add a new task
+    taskForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const taskText = taskInput.value.trim();
+      if (taskText) {
+        const li = document.createElement('li');
+        li.innerHTML = `${taskText} <button onclick="removeTask(this)">Delete</button>`;
+        taskList.appendChild(li);
+        taskInput.value = '';
+      }
+    });
+
+    // Remove a task
+    function removeTask(button) {
+      const li = button.parentElement;
+      taskList.removeChild(li);
+    }
+
+    // Initialize Socket.IO connection
+    const socket = io();
+
+    // Listen for the random number event from the server
+    socket.on('number', (number) => {
+      console.log('Received random number:', number);
+    });
+  </script>
+</body>
+</html>
+
